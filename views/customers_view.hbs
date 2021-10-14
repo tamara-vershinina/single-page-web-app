@@ -1,0 +1,497 @@
+<html>
+  <head>
+    <title>Mobile Phone Online Store Database</title>
+
+  	<!--Meta Tags-->
+    <meta charset="utf-8">
+    <meta content="width=device-width" name="viewport">
+
+  	<!--Bootstrap-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    
+  </head>
+  <body>
+  
+  	<!--Creating tabs for Customers, Orders and Items-->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="tab" href="/">Customers</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="show-items">Items</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="show-orders">Orders</a>
+      </li>
+    </ul>
+  </nav>
+  
+	<!--Customers Database Header-->
+
+  <div class="container">
+     <h1 style="font-size:35px; text-align:center">Customers Database</h1>
+  </div>
+
+  
+
+
+	<!--Customer Database Search + "Add" button-->  
+
+  <div class="input-group mb-3">
+    <input type="search" class="form-control" placeholder="Find a customer by ID..." id="customerSearch">
+      <div class="input-group-append">
+        <button class="btn btn-secondary" type="button" id="databaseSearch">Find</button>
+        <button type="button" class="btn btn-success" align="center" data-toggle="modal" data-target="#addModal">Add</button>
+      </div>
+  </div>
+
+
+        <!-- Table 1. Customers-->
+
+  <table class="table table-hover table-success table-bordered" id="customers">
+  <thead class="font-weight-bold">
+    <tr>  
+      <th style="width: 20%">ID</th>
+      <th style="width: 10%">Title</th>
+      <th style="width: 10%">First Name</th>
+      <th style="width: 10%">Surname</th>
+      <th style="width: 10%">Mobile</th>
+      <th style="width: 10%">Email</th>
+      <th style="width: 15%">Home Address</th>
+      <th style="width: 15%">Shipping Address</th>
+      <th></th>
+      <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+    {{#each results}}
+    <tr>
+      <td style="width: 20%">{{_id}}</td>
+      <td style="width: 10%">{{title}}</td>
+      <td style="width: 10%">{{firstName}}</td>
+      <td style="width: 10%">{{surname}}</td>
+      <td style="width: 10%">{{mobile}}</td>
+      <td style="width: 10%">{{email}}</td>
+      <td style="width: 15%">{{home_address.address_line_1}}<br>{{home_address.address_line_2}}<br>{{home_address.town}}<br>{{home_address.county}}<br>{{home_address.eircode}}</td>
+      <td style="width: 15%">{{shipping_address.address_line_1}}<br>{{shipping_address.address_line_2}}<br>{{shipping_address.town}}<br>{{shipping_address.county}}<br>{{shipping_address.eircode}}</td>
+      <td><button type="button" class="btn btn-warning open-update" align="center" data-id="{{_id}}" data-toggle="modal" data-target="#updateModal">Update</button></td>
+      <td><button type="button" class="btn btn-danger mr-5 save-delete" align="center" data-id="{{_id}}">Delete</button></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+  
+        <!--- Modal to Add a Customer-->
+
+  <div class="modal fade" id="addModal">
+    <div class="modal-dialog">
+        <!--Content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3 class="modal-title" id="addModalLabel">Add a new customer</h3>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input type="text" id="_idA" class="form-control" placeholder="ID" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="titleA" class="form-control" placeholder="Title" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="firstNameA" class="form-control" placeholder="First Name" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="surnameA" class="form-control" placeholder="Surname" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="mobileA" class="form-control" placeholder="Mobile" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="emailA" class="form-control" placeholder="Email" required>
+            </div>
+            <legend>Home Address</legend>
+            <div class="form-group">
+              <input type="text" id="home_address_address_line_1A" class="form-control" placeholder="Address Line 1" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="home_address_address_line_2A" class="form-control" placeholder="Address Line 2" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="home_address_townA" class="form-control" placeholder="Town" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="home_address_countyA" class="form-control" placeholder="County" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="home_address_eircodeA" class="form-control" placeholder="Eircode" required>
+            </div>
+            <legend>Shipping Address</legend>
+            <div class="form-group">
+              <input type="text" id="shipping_address_address_line_1A" class="form-control" placeholder="Address Line 1" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="shipping_address_address_line_2A" class="form-control" placeholder="Address Line 2" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="shipping_address_townA" class="form-control" placeholder="Town" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="shipping_address_countyA" class="form-control" placeholder="County" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="shipping_address_eircodeA" class="form-control" placeholder="Eircode" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="save-add" type = "button" class="btn btn-info" data-dismiss="modal">Save</button>
+          </div>
+        </div>
+    </div>
+  </div>
+  
+        <!--- Modal to Update a Customer-->
+
+  <div class="modal fade" id="updateModal">
+    <div class="modal-dialog">
+        <!--Content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3 class="modal-title" id="updateModalLabel">Update a customer specified by ID</h3>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input type="text" id="titleU" class="form-control" placeholder="Title" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="firstNameU" class="form-control" placeholder="First Name" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="surnameU" class="form-control" placeholder="Surname" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="mobileU" class="form-control" placeholder="Mobile" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="emailU" class="form-control" placeholder="Email" required>
+            </div>
+            <legend>Home Address</legend>
+            <div class="form-group">
+              <input type="text" id="home_address_address_line_1U" class="form-control" placeholder="Address Line 1" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="home_address_address_line_2U" class="form-control" placeholder="Address Line 2" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="home_address_townU" class="form-control" placeholder="Town" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="home_address_countyU" class="form-control" placeholder="County" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="home_address_eircodeU" class="form-control" placeholder="Eircode" required>
+            </div>
+            <legend>Shipping Address</legend>
+            <div class="form-group">
+              <input type="text" id="shipping_address_address_line_1U" class="form-control" placeholder="Address Line 1" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="shipping_address_address_line_2U" class="form-control" placeholder="Address Line 2" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="shipping_address_townU" class="form-control" placeholder="Town" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="shipping_address_countyU" class="form-control" placeholder="County" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="shipping_address_eircodeU" class="form-control" placeholder="Eircode" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type = "button" id="save-update" class="btn btn-info" data-dismiss="modal">Save</button>
+          </div>
+        </div>
+    </div>
+  </div>
+
+    <!--- Modal to Show a found Customer-->
+
+  <div class="modal fade" id="showModal">
+    <div class="modal-dialog">
+        <!--Content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3 class="modal-title" id="addModalLabel">A customer has been found</h3>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input type="text" id="_idF" class="form-control" placeholder="ID" disabled>
+            </div>
+            <div class="form-group">
+              <input type="text" id="titleF" class="form-control" placeholder="Title" disabled>
+            </div>
+            <div class="form-group">
+              <input type="text" id="firstNameF" class="form-control" placeholder="First Name" disabled>
+            </div>
+            <div class="form-group">
+              <input type="text" id="surnameF" class="form-control" placeholder="Surname" disabled>
+            </div>
+            <div class="form-group">
+              <input type="text" id="mobileF" class="form-control" placeholder="Mobile" disabled>
+            </div>
+            <div class="form-group">
+              <input type="text" id="emailF" class="form-control" placeholder="Email" disabled>
+            </div>
+            <legend>Home Address</legend>
+            <div class="form-group">
+              <input type="text" id="home_address_address_line_1F" class="form-control" placeholder="Address Line 1" disabled>
+            </div>
+            <div class="form-group">
+              <input type="text" id="home_address_address_line_2F" class="form-control" placeholder="Address Line 2" disabled>
+            </div>
+            <div class="form-group">
+              <input type="text" id="home_address_townF" class="form-control" placeholder="Town" disabled>
+            </div>
+            <div class="form-group">
+              <input type="text" id="home_address_countyF" class="form-control" placeholder="County" disabled>
+            </div>
+            <div class="form-group">
+              <input type="text" id="home_address_eircodeF" class="form-control" placeholder="Eircode" disabled>
+            </div>
+            <legend>Shipping Address</legend>
+            <div class="form-group">
+              <input type="text" id="shipping_address_address_line_1F" class="form-control" placeholder="Address Line 1" disabled>
+            </div>
+            <div class="form-group">
+              <input type="text" id="shipping_address_address_line_2F" class="form-control" placeholder="Address Line 2" disabled>
+            </div>
+            <div class="form-group">
+              <input type="text" id="shipping_address_townF" class="form-control" placeholder="Town" disabled>
+            </div>
+            <div class="form-group">
+              <input type="text" id="shipping_address_countyF" class="form-control" placeholder="County" disabled>
+            </div>
+            <div class="form-group">
+              <input type="text" id="shipping_address_eircodeF" class="form-control" placeholder="Eircode" disabled>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+<!-- The generation of alert messages is based on the analogical example from J.Keating's lecture materials-->
+    <!-- Success Alert -->
+  <div class="modal fade" id="successAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="alert alert-success" role="alert">
+        Operation was successful
+      </div>
+    </div>
+  </div>
+
+    <!-- Error Alert -->
+  <div class="modal fade" id="errorAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="alert alert-danger" role="alert">
+        Operation was unsuccessful
+      </div>
+    </div>
+  </div>
+
+
+
+<script>
+  $(document).ready(function(){
+        
+        <!--Handle Add Modal form submit-->
+        
+        var saveAdd = $("#save-add");
+        saveAdd.on('click', function(e){
+            e.preventDefault(); // prevent handling the normal form submit click!
+            $.ajax({
+                type: 'POST',
+                url:  'http://localhost:3000/customers',
+                data: {
+                   home_address: {
+                     address_line_1: $("#home_address_address_line_1A").val(),
+                     address_line_2: $("#home_address_address_line_2A").val(),
+                     town: $("#home_address_townA").val(),
+                     county: $("#home_address_countyA").val(),
+                     eircode: $("#home_address_eircodeA").val()
+                   },
+                   shipping_address: {
+                     address_line_1: $("#shipping_address_address_line_1A").val(),
+                     address_line_2: $("#shipping_address_address_line_2A").val(),
+                     town: $("#shipping_address_townA").val(),
+                     county: $("#shipping_address_countyA").val(),
+                     eircode: $("#shipping_address_eircodeA").val()
+                   },
+                   _id: $("#_idA").val(),
+                   title: $("#titleA").val(),
+                   firstName: $("#firstNameA").val(),
+                   surname: $("#surnameA").val(),
+                   mobile: $("#mobileA").val(),
+                   email: $("#emailA").val()
+                },
+                success: function (data) {
+                    console.log('Update successful!');
+                    $('#successAlert').modal('show');
+                    var timer = setTimeout(function() {
+                        $(location).attr('href', '/')
+                    }, 3000);
+                },
+                error: function (data) {
+                    console.log('An error occurred.');
+                    $('#errorAlert').modal('show');
+                    var timer = setTimeout(function() {
+                        $(location).attr('href', '/')
+                    }, 3000);
+                },
+            });
+            $('#addModal').modal('hide');
+        });
+    });
+
+      var openUpdate = $(".open-update");
+      openUpdate.on('click', function(e){
+            console.log($(this).data('id'));
+            $("#save-update").data('id', $(this).data('id'));
+      });
+       
+      var saveUpdate = $("#save-update");
+      saveUpdate.on('click', function(e){
+            data = {
+                   home_address: {
+                     address_line_1: $("#home_address_address_line_1U").val(),
+                     address_line_2: $("#home_address_address_line_2U").val(),
+                     town: $("#home_address_townU").val(),
+                     county: $("#home_address_countyU").val(),
+                     eircode: $("#home_address_eircodeU").val()
+                   },
+                   shipping_address: {
+                     address_line_1: $("#shipping_address_address_line_1U").val(),
+                     address_line_2: $("#shipping_address_address_line_2U").val(),
+                     town: $("#shipping_address_townU").val(),
+                     county: $("#shipping_address_countyU").val(),
+                     eircode: $("#shipping_address_eircodeU").val()
+                   },
+                   title: $("#titleU").val(),
+                   firstName: $("#firstNameU").val(),
+                   surname: $("#surnameU").val(),
+                   mobile: $("#mobileU").val(),
+                   email: $("#emailU").val()
+            };
+
+            if (data.title.length === 0) { delete data.title; }
+            if (data.firstName.length === 0) { delete data.firstName; }
+            if (data.surname.length === 0) { delete data.surname; }
+            if (data. mobile.length === 0) { delete data.mobile; }
+            if (data.email.length === 0) { delete data.email; }
+            if (data.home_address.address_line_1.length === 0) { delete data.home_address.address_line_1; }
+            if (data.home_address.address_line_2.length === 0) { delete data.home_address.address_line_2; }
+            if (data.home_address.town.length === 0) { delete data.home_address.town; }
+            if (data.home_address.county.length === 0) { delete data.home_address.county; }
+            if (data.home_address.eircode.length === 0) { delete data.home_address.eircode; }
+
+            if (data.shipping_address.address_line_1.length === 0) { delete data.shipping_address.address_line_1; }
+            if (data.shipping_address.address_line_2.length === 0) { delete data.shipping_address.address_line_2; }
+            if (data.shipping_address.town.length === 0) { delete data.shipping_address.town; }
+            if (data.shipping_address.county.length === 0) { delete data.shipping_address.county; }
+            if (data.shipping_address.eircode.length === 0) { delete data.shipping_address.eircode; }
+
+            var id = $(this).data('id');
+            e.preventDefault(); // prevent handling the normal form submit click!
+            $.ajax({
+                type: 'PUT',
+                url:  'http://localhost:3000/customers/' + id,
+                data: data,
+                success: function (data) {
+                    console.log('Update successful!');
+                    $('#successAlert').modal('show');
+                    var timer = setTimeout(function() {
+                        $(location).attr('href', '/')
+                    }, 3000);
+                },
+                error: function (data) {
+                    console.log('An error occurred.');
+                    $('#errorAlert').modal('show');
+                    /*var timer = setTimeout(function() {
+                        $(location).attr('href', '/')
+                    }, 3000);*/
+                },
+            });
+            $('#updateModal').modal('hide');
+        });
+
+        var saveDelete = $(".save-delete");
+        saveDelete.on('click', function(e){
+            var id = $(this).data('id');
+            e.preventDefault(); // prevent handling the normal form submit click!
+            $.ajax({
+                type: 'DELETE',
+                url:  'http://localhost:3000/customers/' + id,
+                success: function (data) {
+                    console.log('Delete successful!');
+                    $('#successAlert').modal('show');
+                    var timer = setTimeout(function() {
+                        $(location).attr('href', '/')
+                    }, 3000);
+                },
+                error: function (data) {
+                    console.log('An error occurred.');
+                    $('#errorAlert').modal('show');
+                    var timer = setTimeout(function() {
+                        $(location).attr('href', '/')
+                    }, 3000);
+                },
+            });
+            $('#updateModal').modal('hide');
+        });
+
+        $('#databaseSearch').on('click', function(e) {
+            $.ajax({
+                type: 'GET',
+                url:  'http://localhost:3000/customers/' + $('#customerSearch').val(),
+                success: function (dataStr) {
+                    var data = JSON.parse(dataStr);
+console.log(data);
+                    $('#_idF').val(data._id);
+                    $('#titleF').val(data.title);
+                    $('#firstNameF').val(data.firstName);
+                    $('#surnameF').val(data.surname);
+                    $('#mobileF').val(data.mobile);
+                    $('#emailF').val(data.email);
+                    $('#home_address_address_line_1F').val(data.home_address.address_line_1);
+                    $('#home_address_address_line_2F').val(data.home_address.address_line_2);
+                    $('#home_address_townF').val(data.home_address.town);
+                    $('#home_address_countyF').val(data.home_address.county);
+                    $('#home_address_eircodeF').val(data.home_address.eircode);
+                    $('#shipping_address_address_line_1F').val(data.shipping_address.address_line_1);
+                    $('#shipping_address_address_line_2F').val(data.shipping_address.address_line_2);
+                    $('#shipping_address_townF').val(data.shipping_address.town);
+                    $('#shipping_address_countyF').val(data.shipping_address.county);
+                    $('#shipping_address_eircodeF').val(data.shipping_address.eircode);
+
+                    $('#showModal').modal('show');
+                },
+                error: function (data) {
+                    console.log('Record not found.');
+                    $('#errorAlert').modal('show');
+                },
+            });
+        });
+  
+</script>
+
+</body>
+
+</html>
